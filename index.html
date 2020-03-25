@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Confiny - Your preferred mind state</title>
+  </head>
+  <body>
+    <audio id="rain" loop>
+      <source src="static/rain.ogg" type="audio/ogg">
+      <source src="static/rain.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+
+    <button type="button" onclick="play()">play</button>
+    <button type="button" onclick="pause()">pause</button>
+    <button type="button" onclick="volume_down()">volume down</button>
+    <button type="button" onclick="volume_up()">volume up</button>
+
+    <script>
+      const VOLUME_DEFAULT = 0.5
+      const VOLUME_MAX = 1
+      const VOLUME_MIN = 0
+      const VOLUME_TICK = 0.1
+
+      var rain = document.getElementById("rain");
+      var rain_loop_start = 0.3
+      var rain_loop_end = 0.7
+      var rain_volume = 0.5
+
+      function play() {
+        rain.volume = rain_volume;
+        rain.play();
+      }
+
+      function pause() {
+        rain.pause();
+      }
+
+      function volume_up() {
+        rain.volume = Math.min(VOLUME_MAX, rain.volume + VOLUME_TICK)
+      }
+
+      function volume_down() {
+        rain.volume = Math.max(VOLUME_MIN, rain.volume - VOLUME_TICK)
+      }
+
+      rain.addEventListener('timeupdate', function() {
+        if(this.currentTime > this.duration - rain_loop_end){
+            this.currentTime = rain_loop_start
+        }
+    });
+    </script>
+  </body>
+</html>
